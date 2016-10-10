@@ -1,0 +1,12 @@
+.login_bt {
+	margin:0 0 0 42px;
+	background:url(../images/button.jpg);
+	height:22px;
+	width:69px;
+	float:left;
+	cursor:pointer;
+	text-align:center;
+	line-height:22px;
+	color:#fff;
+	font-size:12px;
+}

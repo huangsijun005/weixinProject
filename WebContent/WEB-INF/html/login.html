@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>绑定账号</title>
+		<link rel="stylesheet" href="../css/main.css" encode="false" type="text/css">
+		<link rel="stylesheet" href="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.css">
+		<script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="http://apps.bdimg.com/libs/jquerymobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	</head>
+	<body>
+		<div data-role="page" id="home">
+			<div data-role="header">
+				<h1>绑定界面</h1>
+			</div>
+			<div data-role="content">
+				<div data-role="fieldcontain">
+					<label for="uersname">学 号:</label>
+					<input type="text" name="username" id="username" value="" />
+				</div>
+				<div data-role="fieldcontain">
+					<label for="password">密 码:</label>
+					<input type="password" name="password" id="password" value="" />
+				</div>
+				<input type="button" data-line="true" id="loginButton" value="登录" />
+			</div> 
+			<div data-role="footer" data-position="fixed">
+				<h1>深圳信息职业学院</h1>
+			</div>
+		</div>
+		<div data-role="page" id="success" data-theme="b">
+			<div data-role="header">
+				<h1>绑定界面</h1>
+			</div>
+			<div data-role="content">
+				<p>恭喜您绑定成功！</p>
+				<span>赶快去试试其他的功能吧^_^</span>
+			</div>
+			<div data-role="footer" data-position="fixed">
+				<h1>深圳信息职业学院</h1>
+			</div>
+		</div>
+		<div data-role="page" id="fail" data-theme="c">
+			<div data-role="header">
+				<h1>绑定界面</h1>
+				<a href="#home" data-icon="arrow-l" class="ui-btn-left">返回</a>
+			</div>
+			<div data-role="content">
+				<p>绑定失败！</p>
+				<span>请重新尝试绑定#_#</span>
+			</div>
+			<div data-role="footer" data-position="fixed">
+				<h1>深圳信息职业学院</h1>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$(function(){
+			$("#loginButton").click(function(){
+				var userName = $("#username").val();
+				var password = $("#password").val();
+				//var params = "Login.Token1=1403220321+&Login.Token2=146369&goto=http://my.sziit.edu.cn/loginSuccess.portal&gotoOnFail=http://my.sziit.edu.cn/loginFailure.portal";
+				var params = "Login.Token1="+userName+"+&Login.Token2="+password+"&goto=http://my.sziit.edu.cn/loginSuccess.portal&gotoOnFail=http://my.sziit.edu.cn/loginFailure.portal";
+				$.ajax({
+					url: "http://my.sziit.edu.cn/userPasswordValidate.portal",
+					data : params,
+					type: "POST",
+					dataType: "html",
+					success:function(xmlData){
+						doInsert(userName);
+					},
+					error:function(event, XMLHttpRequest, ajaxOptions, thrownError){
+						window.location.href = "#fail";
+					}
+				});
+			});
+			function doInsert(userName){
+				$.ajax({
+					url: "http://myapps.ngrok.natapp.cn/sziitWeixin/loginForOk.do",
+					data : userName,
+					type: "POST",
+					dataType: "xml",
+					success:function(xmlData){
+						window.location.href = "#success";
+					},
+					error:function(event, XMLHttpRequest, ajaxOptions, thrownError){
+						window.location.href = "#fail";
+					}
+				});
+			}
+		});
+	</script>
+</html>
